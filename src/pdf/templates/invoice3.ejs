@@ -33,7 +33,7 @@
       }
 
       @page {
-        margin: 20mm
+        margin: 7mm
       }
 
       @media print {
@@ -68,11 +68,12 @@
     <div class="page-footer">
       <footer class="text-center text-gray-500 text-xs">
         <!-- Footer contetnt goes here -->
-        <p>Footer placeholder text goes here</p>
+        <p>מסמך זה הינו מסמך ממוחשב שהופק באמצעות Burj al-barmajah</p>
+        <p>עוסק מורשה 558590964</p>
       </footer>
     </div>
 
-    <table>
+    <table class="w-full table-auto">
       <thead>
         <tr>
           <td>
@@ -88,17 +89,21 @@
             <main>
               <!-- Main content goes here-->
               <!-- Customer + Invoice Details -->
-              <div class="flex justify-between mb-4 <%= isRtl ? 'flex-row-reverse' : 'flex-row' %>">
-                <div>
-                  <div class="font-semibold">Customer:</div>
-                  <div><%= customer.name %></div>
-                  <div>VAT: <%= customer.vatNumber %></div>
-                </div>
-                <div class="text-right <%= isRtl ? 'text-left' : 'text-right' %>">
-                  <div>Reference #: <%= invoice.referenceNumber %></div>
-                  <div>Confirmation #: <%= invoice.confirmationNumber %></div>
-                </div>
-              </div>
+              <table class="w-full table-auto border-collapse text-sm mb-4">
+                <tbody>
+                  <tr>
+                    <td class="p-2 <%= isRtl ? 'text-right' : 'text-left' %>">
+                      <div class="font-semibold">Customer:</div>
+                      <div><%= customer.name %></div>
+                      <div>VAT: <%= customer.vatNumber %></div>
+                    </td>
+                    <td class="p-2 <%= isRtl ? 'text-left' : 'text-right' %>">
+                      <div>Reference #: <%= invoice.referenceNumber %></div>
+                      <div>Confirmation #: <%= invoice.confirmationNumber %></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
 
               <div class="flex justify-between mb-4 <%= isRtl ? 'flex-row-reverse' : 'flex-row' %>">
                 <div>
@@ -118,14 +123,11 @@
                     <th class="border p-1">#</th>
                     <th class="border p-1">Catalog Code</th>
                     <th class="border p-1">Name</th>
-                    <th class="border p-1">Description</th>
-                    <th class="border p-1">Unit</th>
                     <th class="border p-1">Qty</th>
-                    <th class="border p-1">Price (₪)</th>
+                    <th class="border p-1">Price</th>
                     <th class="border p-1">Discount</th>
-                    <th class="border p-1">VAT %</th>
-                    <th class="border p-1">VAT Amt</th>
-                    <th class="border p-1">Total (₪)</th>
+                    <th class="border p-1">VAT</th>
+                    <th class="border p-1">Total</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -133,15 +135,12 @@
                     <tr>
                       <td class="border p-1"><%= index + 1 %></td>
                       <td class="border p-1"><%= item.catalogCode %></td>
-                      <td class="border p-1"><%= item.name %></td>
-                      <td class="border p-1"><%= item.description %></td>
-                      <td class="border p-1"><%= item.measureUnit %></td>
-                      <td class="border p-1"><%= item.quantity %></td>
-                      <td class="border p-1"><%= item.price.toFixed(2) %></td>
+                      <td class="border p-1"><%= item.name %><br/>(<%= item.description %>)</td>
+                      <td class="border p-1"><%= item.measureUnit %> x <%= item.quantity %></td>
+                      <td class="border p-1"><%= item.price.toFixed(2) %> ₪</td>
                       <td class="border p-1"><%= item.discount.toFixed(2) %></td>
-                      <td class="border p-1"><%= item.vatRate %></td>
-                      <td class="border p-1"><%= item.vatAmount.toFixed(2) %></td>
-                      <td class="border p-1"><%= item.fullTotal.toFixed(2) %></td>
+                      <td class="border p-1">(<%= item.vatRate %>%) <%= item.vatAmount.toFixed(2) %> ₪</td>
+                      <td class="border p-1"><%= item.fullTotal.toFixed(2) %> ₪</td>
                     </tr>
                   <% }) %>
                 </tbody>
@@ -154,7 +153,7 @@
                   <tr><td class="border p-1">Items Discount:</td><td class="border p-1"><%= summary.itemsDiscount.toFixed(2) %> ₪</td></tr>
                   <tr><td class="border p-1">General Discount:</td><td class="border p-1"><%= summary.generalDiscount.toFixed(2) %> ₪</td></tr>
                   <tr><td class="border p-1 font-bold">Total After Discount:</td><td class="border p-1 font-bold"><%= summary.totalAfterDiscount.toFixed(2) %> ₪</td></tr>
-                  <tr><td class="border p-1">Tax:</td><td class="border p-1"><%= summary.tax.toFixed(2) %> ₪</td></tr>
+                  <tr><td class="border p-1">Tax (17%):</td><td class="border p-1"><%= summary.tax.toFixed(2) %> ₪</td></tr>
                   <tr><td class="border p-1 font-bold">Full Total:</td><td class="border p-1 font-bold"><%= summary.fullTotal.toFixed(2) %> ₪</td></tr>
                 </table>
               </div>

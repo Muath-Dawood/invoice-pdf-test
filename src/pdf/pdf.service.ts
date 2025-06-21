@@ -30,12 +30,11 @@ export class PdfService {
     const pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
-      displayHeaderFooter: true,
       margin: {
-        top: '1in',
-        bottom: '1in',
-        left: '1in',
-        right: '1in',
+        top: '0.25in',
+        bottom: '0.25in',
+        left: '0.25in',
+        right: '0.25in',
       },
     });
 
