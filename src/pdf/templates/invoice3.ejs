@@ -68,7 +68,7 @@
     <div class="page-footer">
       <footer class="text-center text-gray-500 text-xs">
         <!-- Footer contetnt goes here -->
-        <p>מסמך זה הינו מסמך ממוחשב שהופק באמצעות Burj al-barmajah</p>
+        <p dir="rtl"> <span>Burj al-barmajah</span> מסמך זה הינו מסמך ממוחשב שהופק באמצעות </p>
         <p>עוסק מורשה 558590964</p>
       </footer>
     </div>
@@ -93,28 +93,20 @@
                 <tbody>
                   <tr>
                     <td class="p-2 <%= isRtl ? 'text-right' : 'text-left' %>">
-                      <div class="font-semibold">Customer:</div>
-                      <div><%= customer.name %></div>
-                      <div>VAT: <%= customer.vatNumber %></div>
+                      <div><%= invoice.type %> <%= invoice.referenceNumber %></div>
+                      <div>Allocation Number: <%= invoice.confirmationNumber %></div> 
+                      <div>Date: <%= invoice.date %></div>
+                      <div>[<%= invoice.printType %>]</div>
                     </td>
                     <td class="p-2 <%= isRtl ? 'text-left' : 'text-right' %>">
-                      <div>Reference #: <%= invoice.referenceNumber %></div>
-                      <div>Confirmation #: <%= invoice.confirmationNumber %></div>
+                      <div class="font-semibold">Customer</div>
+                      <div>Name: <%= customer.name %></div>
+                      <div>VAT: <%= customer.vatNumber %></div>
+                      <div></div>
                     </td>
                   </tr>
                 </tbody>
               </table>
-
-              <div class="flex justify-between mb-4 <%= isRtl ? 'flex-row-reverse' : 'flex-row' %>">
-                <div>
-                  <div>Date: <%= invoice.date %></div>
-                </div>
-                <div class="text-right <%= isRtl ? 'text-left' : 'text-right' %>">
-                  <span>Type: <%= invoice.type %></span> |
-                  <span>Confirmation #: <%= invoice.confirmationNumber %></span> |
-                  <span>Print Type: <%= invoice.printType %></span>
-                </div>
-              </div>
 
               <!-- Items Table -->
               <table class="w-full table-auto border-collapse border border-gray-400 text-xs mb-4">
@@ -136,11 +128,11 @@
                       <td class="border p-1"><%= index + 1 %></td>
                       <td class="border p-1"><%= item.catalogCode %></td>
                       <td class="border p-1"><%= item.name %><br/>(<%= item.description %>)</td>
-                      <td class="border p-1"><%= item.measureUnit %> x <%= item.quantity %></td>
-                      <td class="border p-1"><%= item.price.toFixed(2) %> ₪</td>
-                      <td class="border p-1"><%= item.discount.toFixed(2) %></td>
-                      <td class="border p-1">(<%= item.vatRate %>%) <%= item.vatAmount.toFixed(2) %> ₪</td>
-                      <td class="border p-1"><%= item.fullTotal.toFixed(2) %> ₪</td>
+                      <td class="border p-1"><%= item.measureUnit %> X<%= item.quantity %></td>
+                      <td class="border p-1" dir="ltr">₪<%= item.price.toFixed(2) %> </td>
+                      <td class="border p-1" dir="ltr">₪<%= item.discount.toFixed(2) %></td>
+                      <td class="border p-1" dir="ltr">(<%= item.vatRate %>%) ₪<%= item.vatAmount.toFixed(2) %> </td>
+                      <td class="border p-1" dir="ltr">₪<%= item.fullTotal.toFixed(2) %> </td>
                     </tr>
                   <% }) %>
                 </tbody>
