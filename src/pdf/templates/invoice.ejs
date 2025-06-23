@@ -3,120 +3,168 @@
   <head>
     <meta charset="UTF-8" />
     <title>Invoice</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
     <style>
+      .page-header, .page-header-space {
+        height: 100px;
+      }
+
+      .page-footer, .page-footer-space {
+        height: 50px;
+      }
+
+      .page-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .page-header {
+        position: fixed;
+        top: 0mm;
+        width: 100%;
+      }
+
+      .page {
+        page-break-after: always;
+      }
+
       @page {
-        margin: 100px 50px 120px 50px;
+        margin: 7mm
       }
-      header {
-        position: fixed;
-        top: -80px;
-        left: 0;
-        right: 0;
-        height: 80px;
-      }
-      footer {
-        position: fixed;
-        bottom: -100px;
-        left: 0;
-        right: 0;
-        height: 80px;
+
+      @media print {
+        thead {display: table-header-group;}
+        tfoot {display: table-footer-group;}
+
+        button {display: none;}
+
+        body {margin: 0;}
       }
     </style>
   </head>
   <body class="text-sm text-black font-sans">
-    <!-- Header -->
-    <header class="flex justify-between border-b pb-2 mb-4 <%= isRtl ? 'flex-row-reverse' : 'flex-row' %>">
-      <div class="w-1/3">
-        <img src="<%= company.logoUrl %>" alt="Logo" class="h-16 w-auto" />
-      </div>
-      <div class="w-2/3 <%= isRtl ? 'text-left' : 'text-right' %>">
-        <div class="font-bold"><%= company.name %></div>
-        <div>VAT: <%= company.vatNumber %></div>
-        <div><%= company.address %></div>
-        <div><%= company.phone %></div>
-      </div>
-    </header>
 
-    <!-- Footer -->
-    <footer class="text-center text-gray-500 text-xs">
-      <p>Footer placeholder text goes here</p>
-      <p>Page <span class="pageNumber"></span> of <span class="totalPages"></span></p>
-    </footer>
-
-    <!-- Main Content -->
-    <main>
-      <!-- Customer + Invoice Details -->
-      <div class="flex justify-between mb-4 <%= isRtl ? 'flex-row-reverse' : 'flex-row' %>">
-        <div>
-          <div class="font-semibold">Customer:</div>
-          <div><%= customer.name %></div>
-          <div>VAT: <%= customer.vatNumber %></div>
+    <div class="page-header" style="text-align: center">
+      <header
+        class="flex justify-between border-b pb-2 mb-4 <%= isRtl ? 'flex-row-reverse' : 'flex-row' %>"
+      >
+        <!-- Header contetnt goes here -->
+        <div class="w-1/3">
+          <img src="<%= company.logoUrl %>" alt="Logo" class="h-16 w-auto" />
         </div>
-        <div class="text-right <%= isRtl ? 'text-left' : 'text-right' %>">
-          <div>Reference #: <%= invoice.referenceNumber %></div>
-          <div>Confirmation #: <%= invoice.confirmationNumber %></div>
+        <div class="w-2/3 <%= isRtl ? 'text-left' : 'text-right' %>">
+          <div class="font-bold"><%= company.name %></div>
+          <div>VAT: <%= company.vatNumber %></div>
+          <div><%= company.address %></div>
+          <div><%= company.phone %></div>
         </div>
-      </div>
+      </header>
+    </div>
 
-      <div class="flex justify-between mb-4 <%= isRtl ? 'flex-row-reverse' : 'flex-row' %>">
-        <div>
-          <div>Date: <%= invoice.date %></div>
-        </div>
-        <div class="text-right <%= isRtl ? 'text-left' : 'text-right' %>">
-          <div>Type: <%= invoice.type %></div>
-          <div>Confirmation #: <%= invoice.confirmationNumber %></div>
-          <div>Print Type: <%= invoice.printType %></div>
-        </div>
-      </div>
+    <div class="page-footer">
+      <footer class="text-center text-gray-500 text-xs">
+        <!-- Footer contetnt goes here -->
+        <p dir="rtl"> <span>Burj al-barmajah</span> מסמך זה הינו מסמך ממוחשב שהופק באמצעות </p>
+        <p>עוסק מורשה 558590964</p>
+      </footer>
+    </div>
 
-      <!-- Items Table -->
-      <table class="w-full table-auto border-collapse border border-gray-400 text-xs mb-4">
-        <thead>
-          <tr class="bg-gray-200">
-            <th class="border p-1">#</th>
-            <th class="border p-1">Catalog Code</th>
-            <th class="border p-1">Name</th>
-            <th class="border p-1">Description</th>
-            <th class="border p-1">Unit</th>
-            <th class="border p-1">Qty</th>
-            <th class="border p-1">Price (₪)</th>
-            <th class="border p-1">Discount</th>
-            <th class="border p-1">VAT %</th>
-            <th class="border p-1">VAT Amt</th>
-            <th class="border p-1">Total (₪)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% items.forEach((item, index) => { %>
-            <tr>
-              <td class="border p-1"><%= index + 1 %></td>
-              <td class="border p-1"><%= item.catalogCode %></td>
-              <td class="border p-1"><%= item.name %></td>
-              <td class="border p-1"><%= item.description %></td>
-              <td class="border p-1"><%= item.measureUnit %></td>
-              <td class="border p-1"><%= item.quantity %></td>
-              <td class="border p-1"><%= item.price.toFixed(2) %></td>
-              <td class="border p-1"><%= item.discount.toFixed(2) %></td>
-              <td class="border p-1"><%= item.vatRate %></td>
-              <td class="border p-1"><%= item.vatAmount.toFixed(2) %></td>
-              <td class="border p-1"><%= item.fullTotal.toFixed(2) %></td>
-            </tr>
-          <% }) %>
-        </tbody>
-      </table>
+    <table class="w-full table-auto">
+      <thead>
+        <tr>
+          <td>
+            <!--place holder for the fixed-position header-->
+            <div class="page-header-space"></div>
+          </td>
+        </tr>
+      </thead>
 
-      <!-- Summary -->
-      <div class="w-full flex justify-end">
-        <table class="text-sm border-collapse border border-gray-400 w-1/2">
-          <tr><td class="border p-1">Items Total:</td><td class="border p-1"><%= summary.total.toFixed(2) %> ₪</td></tr>
-          <tr><td class="border p-1">Items Discount:</td><td class="border p-1"><%= summary.itemsDiscount.toFixed(2) %> ₪</td></tr>
-          <tr><td class="border p-1">General Discount:</td><td class="border p-1"><%= summary.generalDiscount.toFixed(2) %> ₪</td></tr>
-          <tr><td class="border p-1 font-bold">Total After Discount:</td><td class="border p-1 font-bold"><%= summary.totalAfterDiscount.toFixed(2) %> ₪</td></tr>
-          <tr><td class="border p-1">Tax:</td><td class="border p-1"><%= summary.tax.toFixed(2) %> ₪</td></tr>
-          <tr><td class="border p-1 font-bold">Full Total:</td><td class="border p-1 font-bold"><%= summary.fullTotal.toFixed(2) %> ₪</td></tr>
-        </table>
-      </div>
-    </main>
+      <tbody>
+        <tr>
+          <td>
+            <main>
+              <!-- Main content goes here-->
+              <!-- Customer + Invoice Details -->
+              <table class="w-full table-auto border-collapse text-sm mb-4">
+                <tbody>
+                  <tr>
+                    <td class="p-2 <%= isRtl ? 'text-right' : 'text-left' %>">
+                      <div><%= invoice.type %> <%= invoice.referenceNumber %></div>
+                      <div>Allocation Number: <%= invoice.confirmationNumber %></div>
+                      <div>Date: <%= invoice.date %></div>
+                      <div>[<%= invoice.printType %>]</div>
+                    </td>
+                    <td class="p-2 <%= isRtl ? 'text-left' : 'text-right' %>">
+                      <div class="font-semibold">Customer</div>
+                      <div>Name: <%= customer.name %></div>
+                      <div>VAT: <%= customer.vatNumber %></div>
+                      <div></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Items Table -->
+              <table class="w-full table-auto border-collapse border border-gray-400 text-xs mb-4">
+                <thead>
+                  <tr class="bg-gray-200">
+                    <th class="border p-1">#</th>
+                    <th class="border p-1">Catalog Code</th>
+                    <th class="border p-1">Name</th>
+                    <th class="border p-1">Qty</th>
+                    <th class="border p-1">Price</th>
+                    <th class="border p-1">Discount</th>
+                    <th class="border p-1">VAT</th>
+                    <th class="border p-1">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% items.forEach((item, index) => { %>
+                    <tr>
+                      <td class="border p-1"><%= index + 1 %></td>
+                      <td class="border p-1"><%= item.catalogCode %></td>
+                      <td class="border p-1"><%= item.name %><br/>(<%= item.description %>)</td>
+                      <td class="border p-1"><%= item.measureUnit %> X<%= item.quantity %></td>
+                      <td class="border p-1" dir="ltr">₪<%= item.price.toFixed(2) %> </td>
+                      <td class="border p-1" dir="ltr">₪<%= item.discount.toFixed(2) %></td>
+                      <td class="border p-1" dir="ltr">(<%= item.vatRate %>%) ₪<%= item.vatAmount.toFixed(2) %> </td>
+                      <td class="border p-1" dir="ltr">₪<%= item.fullTotal.toFixed(2) %> </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+
+              <!-- Summary -->
+              <div class="w-full flex justify-end">
+                <table class="text-sm border-collapse border border-gray-400 w-1/2">
+                  <tr><td class="border p-1">Items Total:</td><td class="border p-1"><%= summary.total.toFixed(2) %> ₪</td></tr>
+                  <tr><td class="border p-1">Items Discount:</td><td class="border p-1"><%= summary.itemsDiscount.toFixed(2) %> ₪</td></tr>
+                  <tr><td class="border p-1">General Discount:</td><td class="border p-1"><%= summary.generalDiscount.toFixed(2) %> ₪</td></tr>
+                  <tr><td class="border p-1 font-bold">Total After Discount:</td><td class="border p-1 font-bold"><%= summary.totalAfterDiscount.toFixed(2) %> ₪</td></tr>
+                  <tr><td class="border p-1">Tax (17%):</td><td class="border p-1"><%= summary.tax.toFixed(2) %> ₪</td></tr>
+                  <tr><td class="border p-1 font-bold">Full Total:</td><td class="border p-1 font-bold"><%= summary.fullTotal.toFixed(2) %> ₪</td></tr>
+                </table>
+              </div>
+              <br>
+              <br>
+              <p class="text-justify text-xs"><%= invoice.note %></p>
+            </main>
+          </td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td>
+            <!--place holder for the fixed-position footer-->
+            <div class="page-footer-space"></div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   </body>
 </html>

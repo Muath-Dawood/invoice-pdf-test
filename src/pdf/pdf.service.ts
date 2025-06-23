@@ -10,7 +10,7 @@ export class PdfService {
     'src',
     'pdf',
     'templates',
-    'invoice3.ejs',
+    'invoice.ejs',
   );
 
   async generateInvoicePdf(data: any): Promise<Buffer> {

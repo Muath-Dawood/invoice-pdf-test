@@ -12,7 +12,7 @@ export const mockBillData = {
     vatNumber: '987654321',
   },
   invoice: {
-    note: 'dasdasdasdsadasfsagsadgdaopgdsonbdsonbdsonbdsobnsddasdasdasdsadasfsagsadgdaopgdsonbdsonbdsonbdsobnsddasdasdasdsadasfsagsadgdaopgdsonbdsonbdsonbdsobnsddasdasdasdsadasfsagsadgdaopgdsonbdsonbdsonbdsobnsddasdasdasdsadasfsagsadgdaopgdsonbdsonbdsonbdsobnsddasdasdasdsadasfsagsadgdaopgdsonbdsonbdsonbdsobnsddasdasdasdsadasfsagsadgdaopgdsonbdsonbdsonbdsobnsddasdasdasdsadasfsagsadgdaopgdsonbdsonbdsonbdsobnsd',
+    note: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti dolorum perspiciatis quidem delectus reprehenderit, possimus aspernatur repellendus, qui distinctio, quae itaque quis libero rem fuga dolore ut placeat quam odit.',
     referenceNumber: 'INV-2025-001',
     confirmationNumber: '987891699',
     date: '2025-06-19',
